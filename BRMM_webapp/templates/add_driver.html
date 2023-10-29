@@ -33,7 +33,7 @@ Add Driver
 
         {% if is_junior %}
         <div id="junior_fields">
-            <!-- 出生日期字段 -->
+         
             <div class="mb-3">
                 <label for="date_of_birth" class="form-label">Date of Birth:</label>
                 <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" required min="1923-01-01" max="2023-10-31" value="{{ form_data.get('date_of_birth', '') }}">
@@ -41,7 +41,7 @@ Add Driver
                 <button type="submit" name="action" value="check_age" class="btn btn-secondary btn-sm mt-2">Check Age</button>
             </div>
 
-            <!-- 监护人字段 -->
+         
             {% if show_caregiver_field %}
             <div class="mb-3">
                 <label for="caregiver_id" class="form-label">Caregiver:</label>

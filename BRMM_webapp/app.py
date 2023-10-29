@@ -28,9 +28,11 @@ def getCursor():
     dbconn = connection.cursor()
     return dbconn
 
+
+
 @app.route("/")
 def home(): 
-    return render_template("base.html")
+    return render_template("welcome.html")
 
 @app.route("/listcourses")
 def listcourses():
@@ -378,8 +380,8 @@ def update_run():
     try:
         runs = fetch_runs(cursor, driver_id, course_id)
         for run in runs:
-            driver_id = run[1]  
-            course_id = run[2]  
+            driver_id = run[1]  # 从返回的记录中获取driver_id 
+            course_id = run[2]  # 从返回的记录中获取course_id
             run_num = run[4]
             seconds = request.form.get(f'seconds_{driver_id}_{course_id}_{run_num}')
             cones = request.form.get(f'cones_{driver_id}_{course_id}_{run_num}')
@@ -407,7 +409,7 @@ def editrun():
     
     drivers = fetch_drivers(cursor)
     courses = fetch_courses(cursor)
-    runs = None  
+    runs = None  # 不在初次加载时传递运行数据
     
     message = request.args.get('message')
      
@@ -421,6 +423,7 @@ def add_driver():
     global connection
     global dbconn
 
+    # 获取所有可能的监护人
     getCursor()
     cursor = dbconn
     cursor.execute('SELECT driver_id, CONCAT(first_name, " ", surname) as name FROM driver WHERE age IS NULL')

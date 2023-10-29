@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 30vh;">
+    <div>
+        <h3 class="text-center mb-4">Select a Driver</h3>
+
+        <form method="POST" action="{{ url_for('viewdetails') }}" class="d-flex justify-content-center">
+            <div class="d-flex">
+                <select name="driver_id" class="form-select form-select-sm me-2" style="width: 200px;">
+                    {% for driver in driver_list %}
+                    <option value="{{ driver[0] }}">{{ driver[1] }} {{ driver[2] }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">View Details</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+

@@ -1,0 +1,80 @@
+{% extends "admin.html" %}
+
+{% block title %}
+Add Driver
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Add Driver</h2>
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+    {% endif %}
+    <form method="post" action="/add_driver">
+        <div class="mb-3">
+            <label for="first_name" class="form-label">First Name:</label>
+            <input type="text" class="form-control" name="first_name" required value="{{ form_data.get('first_name', '') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="surname" class="form-label">Surname:</label>
+            <input type="text" class="form-control" name="surname" required value="{{ form_data.get('surname', '') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="is_junior" class="form-label">Is Junior?</label>
+            <select name="is_junior" id="is_junior" class="form-select" onchange="this.form.submit()">
+                <option value="off" {% if not is_junior %}selected{% endif %}>No</option>
+                <option value="on" {% if is_junior %}selected{% endif %}>Yes</option>
+            </select>
+        </div>
+
+        {% if is_junior %}
+        <div id="junior_fields">
+            <!-- 出生日期字段 -->
+            <div class="mb-3">
+                <label for="date_of_birth" class="form-label">Date of Birth:</label>
+                <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" required min="1923-01-01" max="2023-10-31" value="{{ form_data.get('date_of_birth', '') }}">
+                <input type="hidden" name="check_age_clicked" id="check_age_clicked" value="false">
+                <button type="submit" name="action" value="check_age" class="btn btn-secondary btn-sm mt-2">Check Age</button>
+            </div>
+
+            <!-- 监护人字段 -->
+            {% if show_caregiver_field %}
+            <div class="mb-3">
+                <label for="caregiver_id" class="form-label">Caregiver:</label>
+                <select class="form-select" name="caregiver" id="caregiver_id" required>
+                    {% for caregiver_id, caregiver_name in caregivers %}
+                    <option value="{{ caregiver_id }}">{{ caregiver_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if age_message %}
+        <div class="alert alert-info" role="alert">
+            {{ age_message }}
+        </div>
+        {% endif %}
+        
+        <div class="mb-3">
+            <label for="car_num" class="form-label">Car Model:</label>
+            <select class="form-select" name="car" required>
+                {% for car_num, model in cars %}
+                <option value="{{ car_num }}" {% if form_data.get('car') == car_num %}selected{% endif %}>
+                    {{ car_num }} - {{ model }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Driver</button>
+    </form>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4 d-flex justify-content-center">
+    <div class="card shadow p-3" style="width: 40%;">
+        <div class="card-body">
+            <h3 class="text-center fw-bold mb-4">Run Details</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> {{ driver[0] }} {{ driver[1] }}</p>
+                    <p><strong>ID:</strong> {{ driver[2] }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Car Model:</strong> {{ driver[3] }}</p>
+                    <p><strong>Drive Class:</strong> {{ driver[4] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive mt-4 mx-auto" style="max-width: 1200px;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Run Number</th>
+                <th>Seconds</th>
+                <th>Cones</th>
+                <th>Wrong Direction</th>
+                <th>Run Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for run in viewdetails %}  
+                <tr>
+                    <td>{{ run[0] }}</td>
+                    <td>{{ run[1] }}</td>
+                    <td>{{ run[2] }}</td>
+                    <td>{{ run[3] | replace('None', '')}}</td>
+                    <td>{{ run[4] | replace('0', '') }}</td>
+                    <td>{{ run[5] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+{% endblock %}

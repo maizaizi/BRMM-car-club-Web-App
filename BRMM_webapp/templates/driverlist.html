@@ -1,12 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- driver_list is the variable passed in containing the list of drivers -->
-<!-- Add code to display a list of drivers -->
 
-<h2>Driver List</h2>
+<h3 class="text-center my-4">Driver List</h3>
 
-<p>For the Milestone submission, this page just needs to display this text successfully in your browser.</p>
-
-<p>Add the driver list here for your final submission.</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="table-responsive">
+          <table class="table table-bordered table-hover shadow-sm rounded">
+              <thead class="bg-primary text-white">
+                  <tr>
+                      <th class="text-center">Driver ID</th>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Date of Birth</th>
+                      <th class="text-center">Age</th>
+                      <th class="text-center">Car Model</th>
+                      <th class="text-center">Driver Class</th>
+                      <th class="text-center">Caregiver Name</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for driver in drivers %}
+                      <tr {% if driver[3] and driver[3] >= 12 and driver[3] <= 25 %}class="table-warning"{% endif %}>
+                          <td class="text-center">{{ driver[0] }}</td>
+                          <td class="text-center">
+                              <a href="{{ url_for('driverlistdetails', driver_id=driver[0]) }}">
+                                  {{ driver[1] }}
+                              </a>
+                          </td>
+                          <td class="text-center">{{ driver[2] | replace('None', '') }}</td>
+                          <td class="text-center">{{ driver[3] | replace('None', '') }}</td>
+                          <td class="text-center">{{ driver[4] }}</td>
+                          <td class="text-center">{{ driver[5] }}</td>
+                          <td class="text-center">{{ driver[6] | replace('None', '') }}</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

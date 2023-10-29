@@ -1,0 +1,80 @@
+{% extends "admin.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Edit Runs</h2>
+    <form action="/search_runs" method="post" class="mb-4">                
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="driver_id" class="form-label">Driver:</label>
+                <select name="driver_id" class="form-select">
+                    <option value="">-- Select Driver --</option>
+                    {% for driver in drivers %}
+                        <option value="{{ driver[0] }}" {% if driver[0] == driver_id %}selected{% endif %}>{{ driver[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="course_id" class="form-label">Course:</label>
+                <select name="course_id" class="form-select">
+                    <option value="">-- Select Course --</option>
+                    {% for course in courses %}
+                        <option value="{{ course[0] }}" {% if course[0] == course_id %}selected{% endif %}>{{ course[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if runs %}
+    <form action="/update_run" method="post">
+        <input type="hidden" name="driver_id" value="{{ driver_id }}">
+        <input type="hidden" name="course_id" value="{{ course_id }}">
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Driver ID</th>
+                        <th>Driver Name</th>
+                        <th>Course ID</th>
+                        <th>Course Name</th>
+                        <th>Run Number</th>
+                        <th>Seconds</th>
+                        <th>Cones</th>
+                        <th>Wrong Direction</th>
+                        <th>Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for run in runs %}
+                    <tr>
+                        <td> {{ run[1] }}</td>
+                        <td> {{ run[0] }}</td>
+                        <td> {{ run[2] }}</td>
+                        <td>{{ run[3] }}</td>
+                        <td>{{ run[4] }}</td>
+                        <td><input type="number" class="form-control" step="0.01" name="seconds_{{ run[1] }}_{{ run[2] }}_{{ run[4] }}" value="{{ run[5]|float }}"></td>
+                        <td><input type="number" class="form-control" name="cones_{{ run[1] }}_{{ run[2] }}_{{ run[4] }}" value="{{ run[6]|int }}" min="0" max="25"></td>
+                        <td><input type="checkbox" name="wd_{{ run[1] }}_{{ run[2] }}_{{ run[4] }}" {% if run[7] %}checked{% endif %}></td>
+                        <td>{{ run[8] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-success mt-3" name="save_changes">Save Changes</button>
+    </form>
+    {% endif %}
+    {% if message %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
